@@ -5,9 +5,6 @@
 //! # Example
 //!
 //! ```
-//! extern crate nestxml;
-//! extern crate xml;
-//!
 //! use xml::EmitterConfig;
 //!
 //! fn main() {
@@ -27,8 +24,6 @@
 
 #![deny(missing_docs)]
 #![deny(warnings)]
-
-extern crate xml;
 
 #[macro_use]
 mod macros;
