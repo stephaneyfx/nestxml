@@ -65,14 +65,23 @@ impl<'a, W: Write + 'a> Element<'a, W> {
     where
         F: FnOnce(&mut EventWriter<W>) -> Result<(), Error>,
     {
+        self.write_res(f)
+    }
+
+    /// Writes this element and invokes `f` to fill in its children.
+    pub fn write_res<F, T, E>(self, f: F) -> Result<T, E>
+    where
+        F: FnOnce(&mut EventWriter<W>) -> Result<T, E>,
+        E: From<Error>,
+    {
         let mut elem_start = XmlEvent::start_element(self.name.as_str());
         for (name, value) in &self.attributes {
             elem_start = elem_start.attr(name.as_str(), value.as_str());
         }
         self.out.write(elem_start)?;
-        f(self.out)?;
+        let res = f(self.out)?;
         self.out.write(XmlEvent::end_element())?;
-        Ok(())
+        Ok(res)
     }
 
     /// Writes this element without children.
