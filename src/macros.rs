@@ -8,7 +8,7 @@ macro_rules! element_constructor {
         where
             W: ::std::io::Write + 'a,
         {
-            $crate::Element::new(out, stringify!($name))
+            $crate::element(out, stringify!($name))
         }
     };
 }
